@@ -554,7 +554,7 @@ This project is licensed under the **MIT License** — see [LICENSE](LICENSE) fi
 
 
 
-**🚀 [Launch Environment](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta)** | **📖 [Full Documentation](./README.md)** | **🐙 [GitHub](https://github.com/jyotikarao2006-web/Mumbai_Local)**
+**🚀 [Launch Environment](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta)** | **📖 [HF BLOG](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta/blob/main/BLOG.md)** | **🐙 [GitHub](https://github.com/jyotikarao2006-web/Mumbai_Local)**
 
 Made with ❤️ for the OpenEnv Hackathon India 2026
 
