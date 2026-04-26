@@ -309,10 +309,7 @@ Decision Time per Step          2.1ms           3.2ms           4.1ms
 <img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/5cd1917d-ad32-4c50-bc2a-22ab16578aca" />
 
 **Reward Distribution:**
-<img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/c6b65cbe-120f-4662-92a4-880f5770afff" />
-
-
-
+<img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/094d2f65-8dbc-4ffa-b04c-a136a963b4e1" />
 
 
 
