@@ -499,17 +499,7 @@ pip install --upgrade -r requirements.txt
 pip install -e ".[train]" --force-reinstall
 ```
 
----
 
-## 📚 Resources
-
-- **OpenEnv Hackathon**: https://huggingface.co/spaces/openenv/hackathon-2026
-- **TRL Documentation**: https://huggingface.co/docs/trl/
-- **Mumbai Local Info**: https://www.indianrailways.gov.in/
-- **RL Fundamentals**: https://spinningup.openai.com/
-- **Multi-Agent RL**: https://www.davidsilver.uk/
-
----
 
 ## 📝 Citation
 
