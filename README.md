@@ -312,6 +312,7 @@ Decision Time per Step          2.1ms           3.2ms           4.1ms
 <img width="2084" height="1036" alt="image" src="https://github.com/user-attachments/assets/ab570085-4ea6-4863-98b9-0fdedc403a47" />
 
 Training Performance Insights
+
 🔴 Before Training (Random Baseline)
 Rewards are predominantly negative (≈ -40 to 0)
 High variance with no consistent pattern
