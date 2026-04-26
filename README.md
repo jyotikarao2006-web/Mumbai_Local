@@ -554,7 +554,7 @@ This project is licensed under the **MIT License** — see [LICENSE](LICENSE) fi
 
 
 
-**🚀 [Launch Environment](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta)** | **📖 [HF BLOG](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta/blob/main/BLOG.md)** | **🐙 [HF ENVIRONTENT TRAIN](https://huggingface.co/spaces/jyotikarao/mumbai_local_env)**
+**🚀 [Launch Environment](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta)** | **📖 [HF BLOG](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta/blob/main/BLOG.md)** | **🐙 [HF ENVIRONTENT TRAIN-JUPITER NOTEBOOK](https://huggingface.co/spaces/jyotikarao/mumbai_local_env)**
 
 Made with ❤️ for the OpenEnv Hackathon India 2026
 
