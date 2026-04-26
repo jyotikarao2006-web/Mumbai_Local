@@ -305,11 +305,6 @@ Decision Time per Step          2.1ms           3.2ms           4.1ms
 **Arrival Rate Progression:**
 <img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/5a20c2c7-5ff5-42e0-98a4-baadf9110173" />
 
-
-**Accuracy Metrics:**
-<img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/7a519197-9530-4128-8eea-dc4190cc275e" />
-
-
 **Reward Distribution:**
 <img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/5cd1917d-ad32-4c50-bc2a-22ab16578aca" />
 
