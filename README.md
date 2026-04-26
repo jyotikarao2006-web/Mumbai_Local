@@ -5,8 +5,8 @@ description: A multi-agent reinforcement learning environment for optimizing tra
 
 # 🚂 Mumbai Local OpenEnv v3.0 — Research Edition
 
-[![GitHub Badge](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/yourusername/mumbai-local-env)
-[![HuggingFace Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Live%20Space-blue)](https://huggingface.co/spaces/YOUR_USERNAME/mumbai-local-env)
+[![GitHub Badge](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/jyotikarao2006-web/Mumbai_Local)
+[![HuggingFace Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Live%20Space-blue)](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta)
 [![arXiv](https://img.shields.io/badge/arXiv-2404.xxxxx-b31b1b)](https://arxiv.org/abs/2404.xxxxx)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](#license)
@@ -299,31 +299,20 @@ Decision Time per Step          2.1ms           3.2ms           4.1ms
 ### Learning Curves
 
 **Episode Reward Over Time:**
-```
-Reward
-  |     ╱╱╱╱╱╱
-  |    ╱      ╲
- 50   ╱        ╱────────
-  |  ╱        ╱
-  | ╱╱╱╱╱╱╱╱
-  |________________
-  0   5K    10K    15K  (steps)
-```
+<img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/1d72b2a9-2d0a-4350-b185-9479badf5e98" />
+
 
 **Arrival Rate Progression:**
-```
-% Arrived
-  |           ╱╱╱╱
-  |          ╱
- 90%        ╱
-  |       ╱╱
- 50%     ╱
-  |    ╱
-  |   ╱
-  | ╱╱
-  |_______________
-  0   5K    10K    15K  (steps)
-```
+<img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/5a20c2c7-5ff5-42e0-98a4-baadf9110173" />
+
+
+**Accuracy Metrics:**
+<img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/7a519197-9530-4128-8eea-dc4190cc275e" />
+
+
+**Reward Distribution:**
+<img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/5cd1917d-ad32-4c50-bc2a-22ab16578aca" />
+
 
 ### Agent-Specific Performance
 
@@ -365,7 +354,7 @@ Training Disruption Rate → Test Disruption Rate
 
 ### 🎮 Interactive Dashboard
 
-**[🚀 Launch Live Environment on Hugging Face Spaces](https://huggingface.co/spaces/YOUR_USERNAME/mumbai-local-env)**
+**[🚀 Launch Live Environment on Hugging Face Spaces](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta)**
 
 No installation needed — interact with the environment directly in your browser:
 - Watch agents navigate the network in real-time
@@ -416,16 +405,7 @@ huggingface-cli upload YOUR_USERNAME/mumbai-trained ./my_trained_models
 
 ---
 
-## 📚 References & Resources
 
-### 📺 Video Tutorials
-
-| Title | Duration | Link |
-|-------|----------|------|
-| **Environment Overview** | 5 min | [YouTube](https://youtube.com/watch?v=...) |
-| **GRPO Training Deep Dive** | 15 min | [YouTube](https://youtube.com/watch?v=...) |
-| **API & Integration** | 8 min | [YouTube](https://youtube.com/watch?v=...) |
-| **Live Demo Session** | 12 min | [YouTube](https://youtube.com/watch?v=...) |
 
 ### 📝 Blog Posts
 
@@ -441,22 +421,7 @@ huggingface-cli upload YOUR_USERNAME/mumbai-trained ./my_trained_models
    - [OpenEnv Blog](https://openenv.org/blog/transit-llms)
    - Topics: Problem motivation, domain-specific training, evaluation metrics
 
-### 🎤 Presentations & Slides
 
-- **"Mumbai Local OpenEnv: A Challenge for Multi-Agent RL"**
-  - OpenEnv Hackathon 2026 Opening Keynote
-  - [Slides](https://speakerdeck.com/yourusername/mumbai-local-openenv)
-  - [Recording](https://youtube.com/watch?v=...)
-
-- **"From Simulation to Reality: Deploying RL in Transit Systems"**
-  - NeurIPS 2026 Workshop on Real-World RL
-  - [Slides](https://openreview.net/...)
-  - [Workshop Video](https://neurips.cc/...)
-
-- **"The OpenEnv Initiative: Standardizing RL Environments"**
-  - ICML 2026 Main Conference
-  - [Slides](https://icml.cc/...)
-  - [Conference Page](https://icml.cc/Conferences/2026)
 
 ### 📖 Academic References
 
@@ -508,11 +473,6 @@ huggingface-cli upload YOUR_USERNAME/mumbai-trained ./my_trained_models
 - **OpenAI Spinning Up (RL intro)**: https://spinningup.openai.com/
 - **Deep RL Course (Hugging Face)**: https://huggingface.co/learn/rl-course
 
-### 📊 Datasets & Benchmarks
-
-- **Mumbai Local Official Data**: https://www.indianrailways.gov.in/
-- **ATCS (Automatic Train Control System)**: Contact Central Railways
-- **OpenStreetMap (Station Coordinates)**: https://www.openstreetmap.org/
 
 ---
 
@@ -523,7 +483,7 @@ We welcome contributions! Here are ways to help:
 ### 🐛 Report Issues
 ```bash
 # Found a bug?
-git clone https://github.com/yourusername/mumbai-local-env.git
+git clone https://github.com/jyotikarao2006-web/mumbai-local-env.git
 cd mumbai-local-env
 # Open an issue on GitHub with:
 # - Environment version
@@ -583,10 +543,6 @@ This project is licensed under the **MIT License** — see [LICENSE](LICENSE) fi
 
 ## 🙏 Acknowledgments
 
-### Data & Domain Expertise
-- **Central Railways (Mumbai)**: Network topology and capacity data
-- **BEST (Bus Rapid Transit)**: Last-mile transport integration
-- **Local commuters**: User research and feedback
 
 ### Technical Contributors
 - **Hugging Face**: TRL, Datasets, Spaces infrastructure
@@ -604,10 +560,10 @@ This project is licensed under the **MIT License** — see [LICENSE](LICENSE) fi
 
 **Questions?** Let's chat:
 
-- **GitHub Issues**: [Report bugs](https://github.com/yourusername/mumbai-local-env/issues)
-- **GitHub Discussions**: [Community Q&A](https://github.com/yourusername/mumbai-local-env/discussions)
-- **Email**: your.email@example.com
-- **Twitter/X**: [@yourhandle](https://twitter.com/yourhandle)
+- **GitHub Issues**: [Report bugs](https://github.com/jyotikarao2006-web/Mumbai_Local/issues)
+- **GitHub Discussions**: [Community Q&A](https://github.com/jyotikarao2006-web/Mumbai_Localdiscussions)
+- **Email**: jyotika.rao2006@gmail.com
+
 
 **Want to collaborate?** Open to:
 - 🤝 Joint research projects
@@ -619,15 +575,9 @@ This project is licensed under the **MIT License** — see [LICENSE](LICENSE) fi
 
 <div align="center">
 
-## 🌟 Featured In
 
-[![OpenEnv Badge](https://img.shields.io/badge/OpenEnv-Hackathon%202026-orange)](https://openenv.org)
-[![HF Spaces](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face%20Spaces-blue)](https://huggingface.co/spaces)
-[![NeurIPS Workshop](https://img.shields.io/badge/NeurIPS-Real%20World%20RL%20Workshop-brightgreen)](https://neurips.cc)
 
----
-
-**🚀 [Launch Environment](https://huggingface.co/spaces/YOUR_USERNAME/mumbai-local-env)** | **📖 [Full Documentation](./README.md)** | **🐙 [GitHub](https://github.com/yourusername/mumbai-local-env)**
+**🚀 [Launch Environment](https://huggingface.co/spaces/jyotikarao/mumbai_local_meta)** | **📖 [Full Documentation](./README.md)** | **🐙 [GitHub](https://github.com/jyotikarao2006-web/Mumbai_Local)**
 
 Made with ❤️ for the OpenEnv Hackathon India 2026
 
