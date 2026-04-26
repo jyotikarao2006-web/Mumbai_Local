@@ -522,10 +522,10 @@ If you use Mumbai Local OpenEnv in your research, please cite:
 ```bibtex
 @software{mumbai_local_env_2026,
   title={Mumbai Local OpenEnv v3.0: A Multi-Agent RL Environment for Transit Decision-Making},
-  author={Your Name and Contributors},
+  author={Jyotika Rao},
   year={2026},
-  url={https://github.com/yourusername/mumbai-local-env},
-  howpublished={\url{https://huggingface.co/spaces/YOUR_USERNAME/mumbai-local-env}},
+  url={https://github.com/jyotikarao2006-web/Mumbai_Local},
+  howpublished={\url{https://huggingface.co/spaces/jyotikarao/mumbai_local_meta}},
   note={OpenEnv Hackathon India 2026}
 }
 ```
