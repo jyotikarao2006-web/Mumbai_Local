@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Mumbai Local — OpenEnv Live Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="noise"></div>
+
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-track" id="tickerTrack">
+      WESTERN LINE: CHURCHGATE ↔ VIRAR &nbsp;|&nbsp; CENTRAL LINE: CSMT ↔ KALYAN &nbsp;|&nbsp;
+      HARBOUR LINE: CSMT ↔ PANVEL &nbsp;|&nbsp; OPENENV HACKATHON INDIA 2026 &nbsp;|&nbsp;
+      MULTI-AGENT RL TRAINING LIVE &nbsp;|&nbsp;
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="h-left">
+      <div>
+        <div class="logo-name">MUMBAI LOCAL</div>
+        <div class="logo-sub">OpenEnv · Multi-Agent RL</div>
+      </div>
+    </div>
+
+    <div class="h-center">
+      <div id="clock" class="clock">--:--:--</div>
+      <div class="live-dot-wrap">
+        <span class="live-dot"></span>
+        <span class="live-lbl">LIVE</span>
+      </div>
+    </div>
+
+    <div class="h-right">
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+      <div class="kpi" id="kpi-reward">
+        <span class="kpi-l">TOTAL REWARD</span>
+        <span class="kpi-v" id="hdr-reward">0.00</span>
+      </div>
+      <div class="kpi kpi-green">
+        <span class="kpi-l">ARRIVED</span>
+        <span class="kpi-v" id="hdr-arrived">0/10</span>
+      </div>
+      <div class="kpi kpi-blue">
+        <span class="kpi-l">EPISODE</span>
+        <span class="kpi-v" id="hdr-episode">0</span>
+      </div>
+      <div class="kpi kpi-purple">
+        <span class="kpi-l">STEP</span>
+        <span class="kpi-v" id="hdr-step">0</span>
+      </div>
+      <div class="kpi kpi-time">
+        <span class="kpi-l">SIM TIME</span>
+        <span class="kpi-v" id="hdr-simtime">--:00</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN 3-COLUMN GRID -->
+  <div class="main">
+
+    <!-- ═══════ LEFT COLUMN ═══════ -->
+    <aside class="panel-col left-col">
+
+      <!-- AI Natural Language Command -->
+      <div class="panel">
+        <div class="panel-hd">
+          <span class="tag tag-cyan">AI</span>
+          <span>Natural Language Command</span>
+        </div>
+        <div class="nl-bar">
+          <input class="nl-input" id="nlInput" type="text"
+            placeholder='e.g. "avoid crowds on Western line"' />
+          <button class="nl-btn" onclick="sendNLCommand()">▶</button>
+        </div>
+        <div class="nl-result" id="nlResult"></div>
+      </div>
+
+      <!-- Agent Actions -->
+      <div class="panel">
+        <div class="panel-hd">
+          <span class="tag">CONTROL</span>
+          <span>Agent Actions</span>
+        </div>
+        <div class="action-grid">
+          <button class="abtn" data-action="route_optimize" onclick="manualStep(this)">
+            <span class="abtn-name">Route Optimize</span>
+            <span class="abtn-desc">Fastest path</span>
+          </button>
+          <button class="abtn" data-action="avoid_crowd" onclick="manualStep(this)">
+            <span class="abtn-name">Avoid Crowd</span>
+            <span class="abtn-desc">Low occupancy</span>
+          </button>
+          <button class="abtn" data-action="reroute" onclick="manualStep(this)">
+            <span class="abtn-name">Reroute</span>
+            <span class="abtn-desc">Bypass disruption</span>
+          </button>
+          <button class="abtn" data-action="wait" onclick="manualStep(this)">
+            <span class="abtn-name">Wait</span>
+            <span class="abtn-desc">Hold station</span>
+          </button>
+        </div>
+        <div class="ctrl-row">
+          <button class="cbtn primary" id="autoBtn" onclick="toggleAuto()">▶ AUTO SIM</button>
+          <button class="cbtn warn" onclick="openDisruptBuilder()">⚡ DISRUPT</button>
+          <button class="cbtn muted" onclick="doReset()">↺ RESET</button>
+        </div>
+        <div class="stats-box">
+          <div class="sb-row"><span>ε (Epsilon)</span><span id="sb-eps">1.0000</span></div>
+          <div class="sb-row"><span>Last Action</span><span id="sb-act">—</span></div>
+          <div class="sb-row"><span>Last Reward</span><span id="sb-rew">—</span></div>
+          <div class="sb-row"><span>Loss</span><span id="sb-loss">—</span></div>
+          <div class="sb-row"><span>Disruptions</span><span id="sb-dis">0</span></div>
+          <div class="sb-row"><span>Avg Crowd</span><span id="sb-crowd">—</span></div>
+        </div>
+      </div>
+
+      <!-- Rush Hour Simulation -->
+      <div class="panel">
+        <div class="panel-hd">
+          <span class="tag tag-orange">TIME</span>
+          <span>Rush Hour Simulation</span>
+        </div>
+        <div class="time-slider-wrap">
+          <div class="time-labels">
+            <span>12am</span><span>6am</span><span>12pm</span><span>6pm</span><span>12am</span>
+          </div>
+          <input type="range" min="0" max="23" value="9" id="timeSlider" class="time-slider"
+            oninput="onTimeSlider(this.value)">
+          <div class="time-info">
+            <span class="time-current" id="timeDisplay">09:00</span>
+            <span class="time-badge" id="timeBadge">MORNING RUSH</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 Commuter Agents -->
+      <div class="panel">
+        <div class="panel-hd">
+          <span class="tag tag-green">AGENTS</span>
+          <span>10 Commuters</span>
+        </div>
+        <div class="agents-wrap" id="agentsList"></div>
+      </div>
+
+      <!-- Disruption Alerts -->
+      <div class="panel" style="max-height:160px;">
+        <div class="panel-hd">
+          <span class="tag tag-red">ALERTS</span>
+          <span>Disruptions</span>
+        </div>
+        <div class="dis-wrap" id="disList">
+          <div class="no-dis">All lines clear</div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ═══════ CENTER COLUMN ═══════ -->
+    <div class="center-col">
+
+      <!-- Network Map -->
+      <div class="panel panel-network">
+        <div class="panel-hd">
+          <span class="tag tag-purple">NETWORK</span>
+          <span>Mumbai Rail — Click station to inspect</span>
+          <div class="legend">
+            <span class="leg w">▬ Western</span>
+            <span class="leg c">▬ Central</span>
+            <span class="leg h">▬ Harbour</span>
+          </div>
+        </div>
+        <canvas id="netCanvas"></canvas>
+      </div>
+
+      <!-- Reward + Loss charts -->
+      <div class="charts-row">
+        <div class="panel chart-panel">
+          <div class="panel-hd">
+            <span class="tag tag-orange">REWARD</span>
+            <span>Cumulative Reward</span>
+          </div>
+          <div class="chart-box"><canvas id="rewardChart"></canvas></div>
+        </div>
+        <div class="panel chart-panel">
+          <div class="panel-hd">
+            <span class="tag tag-yellow">LOSS</span>
+            <span>Training Loss</span>
+          </div>
+          <div class="chart-box"><canvas id="lossChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Per-step + Arrivals charts -->
+      <div class="charts-row">
+        <div class="panel chart-panel">
+          <div class="panel-hd">
+            <span class="tag tag-cyan">STEP</span>
+            <span>Per-Step Reward</span>
+          </div>
+          <div class="chart-box"><canvas id="stepChart"></canvas></div>
+        </div>
+        <div class="panel chart-panel">
+          <div class="panel-hd">
+            <span class="tag tag-purple">ARRIVALS</span>
+            <span>Agents Arrived</span>
+          </div>
+          <div class="chart-box"><canvas id="arrChart"></canvas></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════ RIGHT COLUMN ═══════ -->
+    <aside class="panel-col right-col">
+
+      <!-- Episode Leaderboard -->
+      <div class="panel">
+        <div class="panel-hd">
+          <span class="tag tag-yellow">🏆</span>
+          <span>Episode Leaderboard</span>
+          <button class="compare-btn" id="compareBtn" onclick="toggleCompareMode()">COMPARE</button>
+        </div>
+        <div class="lb-wrap" id="leaderboard"></div>
+        <!-- Compare view -->
+        <div class="compare-wrap" id="compareWrap" style="display:none">
+          <div class="compare-selects">
+            <select class="cmp-sel" id="cmpA" onchange="loadCompare()"><option value="">Ep A</option></select>
+            <span class="vs-label">VS</span>
+            <select class="cmp-sel" id="cmpB" onchange="loadCompare()"><option value="">Ep B</option></select>
+          </div>
+          <div class="compare-charts"><canvas id="cmpChart"></canvas></div>
+          <div class="compare-stats" id="compareStats"></div>
+        </div>
+      </div>
+
+      <!-- Station Crowd Heatmap -->
+      <div class="panel flex-grow">
+        <div class="panel-hd">
+          <span class="tag tag-red">CROWD</span>
+          <span>Station Density</span>
+        </div>
+        <div class="hm-wrap" id="heatmap"></div>
+      </div>
+
+      <!-- Live Train Positions -->
+      <div class="panel flex-grow">
+        <div class="panel-hd">
+          <span class="tag">TRAINS</span>
+          <span>Live Positions</span>
+        </div>
+        <div class="trains-wrap" id="trainsList"></div>
+      </div>
+
+    </aside>
+  </div><!-- /.main -->
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Station Popover -->
+  <div class="popover" id="stationPopover">
+    <button class="pop-close" onclick="closePopover()">✕</button>
+    <div class="pop-title" id="popTitle">Station</div>
+    <div class="pop-content" id="popContent"></div>
+  </div>
+
+  <!-- Disruption Scenario Builder Modal -->
+  <div class="modal-overlay" id="disruptModal" onclick="if(event.target===this)closeDisruptModal()">
+    <div class="modal">
+      <div class="modal-hd">
+        <span class="tag tag-red">⚡</span>
+        <span>Disruption Scenario Builder</span>
+        <button class="modal-close" onclick="closeDisruptModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <label>LINE</label>
+          <select id="disLine" class="form-sel" onchange="updateDisruptStations()">
+            <option value="">Random</option>
+            <option value="Western">Western</option>
+            <option value="Central">Central</option>
+            <option value="Harbour">Harbour</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>STATION</label>
+          <select id="disStn" class="form-sel"><option value="">Random</option></select>
+        </div>
+        <div class="form-row">
+          <label>TYPE</label>
+          <select id="disType" class="form-sel">
+            <option value="">Random</option>
+            <option>Signal failure</option>
+            <option>Track maintenance</option>
+            <option>Heavy rainfall</option>
+            <option>Overcrowding delay</option>
+            <option>Medical emergency</option>
+            <option>Equipment failure</option>
+            <option>Power outage</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>SEVERITY</label>
+          <div class="sev-btns">
+            <button class="sev-btn" data-sev="Low" onclick="setSev(this)">LOW</button>
+            <button class="sev-btn active" data-sev="Medium" onclick="setSev(this)">MEDIUM</button>
+            <button class="sev-btn" data-sev="High" onclick="setSev(this)">HIGH</button>
+          </div>
+        </div>
+        <button class="trigger-btn" onclick="triggerCustomDisrupt()">⚡ TRIGGER DISRUPTION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Journey Modal -->
+  <div class="modal-overlay" id="journeyModal" onclick="if(event.target===this)closeJourneyModal()">
+    <div class="modal">
+      <div class="modal-hd">
+        <span class="tag tag-green">JOURNEY</span>
+        <span id="journeyTitle">Agent Timeline</span>
+        <button class="modal-close" onclick="closeJourneyModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="journey-wrap" id="journeyTimeline"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

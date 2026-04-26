@@ -1,0 +1,218 @@
+---
+title: Mumbai Local OpenEnv
+emoji: 🚂
+colorFrom: orange
+colorTo: purple
+sdk: docker
+app_port: 7860
+license: mit
+---
+
+name: MumbaiLocalEnv-v4
+version: "4.0.0"
+description: >
+  A multi-agent reinforcement learning environment simulating Mumbai's local
+  train network (Western, Central, Harbour). Agents (commuters) learn to route
+  optimally, avoid crowds, handle real-time disruptions, complete personal
+  schedule tasks, and execute inter-line transfers at junction stations.
+
+  v3.0 fixes all known v2.3 correctness issues and adds:
+    - Agents physically move along their line each step
+    - Inter-line transfers at 6 junction stations (Dadar, CSMT, Andheri, etc.)
+    - Personal task completion reward fully wired
+    - Rich per-agent observations used in every reward computation
+    - Action repetition penalty (encourages diverse strategies)
+    - Grievance system: penalty for missing arrival deadline
+    - Temporal rush-hour crowd model (crowd spikes 8–10 AM, 5–8 PM)
+    - GRPO reward_fn uses per-call env instances (no shared-state bug)
+    - 6-panel training plot including per-agent reward bars and epsilon decay
+
+themes:
+  - multi-agent
+  - long-horizon-planning
+  - personal-assistant
+  - world-modeling
+
+author: "OpenEnv Hackathon Team"
+license: MIT
+
+# --------------------------------------------------------------------------- #
+# Environment                                                                  #
+# --------------------------------------------------------------------------- #
+environment:
+  class: MumbaiLocalEnv
+  module: environment
+  max_steps: 200
+  n_agents: 10
+  sim_hour: 8.5        # default start: morning rush hour
+  render_modes:
+    - json
+    - human
+
+observation_space:
+  type: dict
+  fields:
+    - step: int
+    - total_reward: float
+    - agents_active: int
+    - agents_arrived: int
+    - disruptions_count: int
+    - avg_crowd: float
+    - trains_delayed: int
+    - sim_hour: float
+
+  per_agent_rich_obs:
+    - current_location: str
+    - destination: str
+    - distance_to_destination: int
+    - reward_so_far: float
+    - crowd_at_current: int
+    - trains_nearby: list[dict]     # id, occupancy, eta_minutes, delayed
+    - disruptions: list[dict]       # type, severity, station, distance
+    - can_transfer: bool
+    - available_lines: list[str]
+    - tasks_pending: int
+    - sim_hour: float
+
+action_space:
+  type: discrete
+  n: 4
+  actions:
+    - route_optimize
+    - avoid_crowd
+    - reroute
+    - wait
+
+reward:
+  type: composable_rubric
+  note: "All components active and wired in v3.0"
+  components:
+    - name: arrival_bonus
+      weight: 10.0
+      note: "Fires at arrival"
+    - name: distance_progress
+      weight: 1.5
+      note: "Deterministic — reward for moving closer each step"
+    - name: time_efficiency
+      weight: 2.5
+      note: "Penalise slow routes; reward fast ones"
+    - name: crowd_avoidance
+      weight: 1.2
+      note: "Personalised by crowding_tolerance"
+    - name: disruption_response
+      weight: 2.5
+      note: "Severity-aware; rewards smart reroute, penalises wasteful reroute"
+    - name: waiting_penalty
+      weight: -0.35
+      note: "Discourages standing still"
+    - name: personal_task_completion
+      weight: 5.0
+      note: "ACTIVE v3 — fires at arrival based on tasks completed en route"
+    - name: transfer_bonus
+      weight: 1.0
+      note: "NEW v3 — reward for smart inter-line transfer at junctions"
+    - name: repetition_penalty
+      weight: -0.3
+      note: "NEW v3 — penalise repeating the same action 3+ times"
+    - name: grievance_penalty
+      weight: -3.0
+      note: "NEW v3 — one-time penalty for missing arrival_deadline"
+
+# --------------------------------------------------------------------------- #
+# Transfer Graph                                                               #
+# --------------------------------------------------------------------------- #
+transfer_graph:
+  Dadar:   [Western, Central]
+  CSMT:    [Central, Harbour]
+  Andheri: [Western, Harbour]
+  Bandra:  [Western, Harbour]
+  Kurla:   [Central, Harbour]
+  Mahim:   [Western, Harbour]
+
+# --------------------------------------------------------------------------- #
+# Training                                                                     #
+# --------------------------------------------------------------------------- #
+training:
+  recommended_algorithm: GRPO
+  framework: huggingface_trl
+  model: Qwen/Qwen2.5-0.5B-Instruct
+  entry_point: "python train.py"
+  gpu_required: false    # simulate mode runs on CPU; trl mode needs GPU
+
+  modes:
+    simulate:
+      command: "python train.py"
+      note: >
+        Real epsilon-greedy policy on the actual env. Reward/arrival data
+        from genuine env steps. Loss is a calibrated proxy (clearly labelled).
+        Runs in ~3 min, no GPU required. Generates 6-panel training plot.
+
+    trl:
+      command: "TRAINING_MODE=trl python train.py"
+      note: >
+        Full GRPO fine-tuning via HuggingFace TRL. Each generation uses its
+        own MumbaiLocalEnv instance (no shared-state bug). Prompt uses rich
+        per-agent observations. ~3 min on Colab T4.
+      gpu: T4
+      max_steps: 60
+      batch_size: 2
+      num_generations: 4
+      max_completion_length: 10
+      gradient_checkpointing: true
+
+# --------------------------------------------------------------------------- #
+# Inference                                                                    #
+# --------------------------------------------------------------------------- #
+inference:
+  entry_point: "python app.py --port 7860"
+  endpoints:
+    - path: /api/state
+      method: GET
+      description: "Full world snapshot including per-agent state"
+    - path: /api/step
+      method: POST
+      body: '{"action": "route_optimize"}'
+      description: "Advance one step"
+    - path: /api/command
+      method: POST
+      body: '{"text": "avoid crowds on Western line"}'
+      description: "Natural-language → action → step"
+    - path: /api/disrupt
+      method: POST
+      body: '{"line": "Western", "type": "Signal failure", "severity": "High"}'
+      description: "Inject a disruption event"
+    - path: /api/agent/<id>
+      method: GET
+      description: "Rich per-agent state including rich_obs dict"
+    - path: /api/transfer
+      method: POST
+      body: '{"agent_id": 0, "to_line": "Central"}'
+      description: "Force an agent to transfer lines at a junction"
+    - path: /api/tasks
+      method: GET
+      description: "Live personal task completion status for all agents"
+    - path: /api/benchmark
+      method: POST
+      description: "Run 5 heuristic episodes and return benchmark stats"
+    - path: /api/reset
+      method: POST
+      description: "Reset episode; archives to leaderboard"
+    - path: /api/auto
+      method: POST
+      description: "Toggle auto-step loop"
+    - path: /api/leaderboard
+      method: GET
+      description: "Episode leaderboard"
+    - path: /api/time
+      method: POST
+      body: '{"hour": 8}'
+      description: "Set simulated hour (affects rush-hour crowd levels)"
+
+# --------------------------------------------------------------------------- #
+# Docker / HF Spaces                                                           #
+# --------------------------------------------------------------------------- #
+deployment:
+  type: docker
+  sdk: docker
+  port: 7860
+  dockerfile: Dockerfile

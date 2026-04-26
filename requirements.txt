@@ -1,0 +1,12 @@
+flask
+numpy
+matplotlib
+anthropic>=0.25.0
+# Optional (for real GTFS parsing):
+# gtfs-kit
+# For TRL GRPO training (GPU required):
+# trl
+# transformers
+# accelerate
+# torch
+# datasets

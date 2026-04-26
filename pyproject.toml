@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Project metadata
+# ─────────────────────────────────────────────────────────────────────────────
+[project]
+name            = "mumbai-local-env"
+version         = "2.3.0"
+description     = "Multi-agent RL environment for Mumbai Local train network (OpenEnv Hackathon India 2026)"
+readme          = "README.md"
+license         = { text = "MIT" }
+requires-python = ">=3.10"
+
+keywords = [
+    "reinforcement-learning",
+    "multi-agent",
+    "openenv",
+    "huggingface",
+    "transit",
+    "grpo",
+    "trl",
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# ── Core runtime deps (dashboard + environment only) ─────────────────────────
+dependencies = [
+    "flask>=3.0.0",
+    "numpy>=1.26.0",
+    "matplotlib>=3.8.0",
+]
+
+# ── Optional extras ───────────────────────────────────────────────────────────
+[project.optional-dependencies]
+# Full TRL / GRPO training (GPU recommended)
+train = [
+    "torch>=2.0.0",
+    "transformers>=4.40.0",
+    "trl>=0.8.0",
+    "datasets>=2.19.0",
+    "accelerate>=0.29.0",
+    "unsloth>=2024.4",
+]
+# Inference only (CPU-friendly)
+inference = [
+    "torch>=2.0.0",
+    "transformers>=4.40.0",
+]
+# Everything
+all = [
+    "mumbai-local-env[train]",
+]
+
+# ── Console scripts ───────────────────────────────────────────────────────────
+[project.scripts]
+mumbai-serve    = "app:app"            # Flask dashboard
+mumbai-train    = "train:__main__"     # Training entry point
+mumbai-infer    = "inference:__main__" # Inference entry point
+
+# ── Project links ─────────────────────────────────────────────────────────────
+[project.urls]
+Homepage       = "https://huggingface.co/spaces/YOUR_USERNAME/mumbai-local-env"
+Repository     = "https://github.com/YOUR_USERNAME/mumbai-local-env"
+"Bug Tracker"  = "https://github.com/YOUR_USERNAME/mumbai-local-env/issues"
+"HF Space"     = "https://huggingface.co/spaces/YOUR_USERNAME/mumbai-local-env"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tool configuration
+# ─────────────────────────────────────────────────────────────────────────────
+[tool.setuptools]
+packages = ["mumbai_local_env"]
+
+[tool.setuptools.package-data]
+"*" = ["templates/**", "static/**", "*.yaml", "*.md", "*.png"]
+
+# ── Ruff (linting / formatting) ───────────────────────────────────────────────
+[tool.ruff]
+line-length    = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select  = ["E", "F", "W", "I"]
+ignore  = ["E501"]   # long lines handled by formatter
+
+# ── Pytest ───────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths    = ["tests"]
+python_files = ["test_*.py"]
+addopts      = "-v --tb=short"
