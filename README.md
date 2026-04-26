@@ -311,6 +311,22 @@ Decision Time per Step          2.1ms           3.2ms           4.1ms
 **Before and After cummulative rewards:**
 <img width="2084" height="1036" alt="image" src="https://github.com/user-attachments/assets/ab570085-4ea6-4863-98b9-0fdedc403a47" />
 
+Training Performance Insights
+🔴 Before Training (Random Baseline)
+Rewards are predominantly negative (≈ -40 to 0)
+High variance with no consistent pattern
+Frequent sharp drops indicating suboptimal decisions
+
+Interpretation:
+The untrained agent follows a random policy, resulting in unstable and poor performance across steps.
+
+🟢 After Training (Trained Agent)
+Rewards shift to a predominantly positive range (≈ 0 to +50)
+Variability persists due to stochastic environment dynamics
+Frequent positive spikes indicate improved decision-making
+
+Interpretation:
+After training, the agent learns an effective policy that consistently yields higher rewards and improved performance.
 
 
 
@@ -421,6 +437,7 @@ huggingface-cli upload YOUR_USERNAME/mumbai-trained ./my_trained_models
 3. **"Why LLMs Fail at Transit Problems (And How to Fix It)"**
    - [OpenEnv Blog](https://openenv.org/blog/transit-llms)
    - Topics: Problem motivation, domain-specific training, evaluation metrics
+   - 
 
 
 
