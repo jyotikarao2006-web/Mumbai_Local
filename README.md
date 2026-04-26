@@ -424,67 +424,24 @@ huggingface-cli upload YOUR_USERNAME/mumbai-trained ./my_trained_models
 
 ---
 
-
-
-### 📝 Blog Posts
-
-1. **"Building a Multi-Agent RL Environment for Transit Networks"**
-   - [Medium Article](https://medium.com/@yourusername/mumbai-local-env)
-   - Topics: Architecture design, reward engineering, challenges faced
-
-2. **"GRPO Training for LLMs: From Theory to Transit"**
-   - [Blog](https://yourblog.com/grpo-transit)
-   - Topics: GRPO mechanics, application to real-world domains, results analysis
-
-3. **"Why LLMs Fail at Transit Problems (And How to Fix It)"**
-   - [OpenEnv Blog](https://openenv.org/blog/transit-llms)
-   - Topics: Problem motivation, domain-specific training, evaluation metrics
-   - 
-
-
-
 ### 📖 Academic References
 
 **Core Papers on Multi-Agent RL:**
 
-1. Rashid, T., et al. (2018). "QMIX: Monotonic Value Function Factorisation for Decentralised Multi-Agent Reinforcement Learning"
-   - [arXiv:1803.11485](https://arxiv.org/abs/1803.11485)
-   - Foundational work on cooperative multi-agent learning
-
-2. Foerster, J., et al. (2018). "Counterfactual Multi-Agent Policy Gradients"
-   - [arXiv:1705.08056](https://arxiv.org/abs/1705.08056)
-   - Addresses credit assignment in multi-agent settings
-
-3. Palmer, G., et al. (2020). "Lenient Multi-Agent Deep Reinforcement Learning"
+1. Palmer, G., et al. (2020). "Lenient Multi-Agent Deep Reinforcement Learning"
    - [arXiv:2011.07598](https://arxiv.org/abs/2011.07598)
    - Handling exploration in cooperative multi-agent systems
 
 **GRPO & LLM Training:**
 
-4. OpenAI/Anthropic et al. (2024). "Group Relative Policy Optimization for Language Model Alignment"
+1. OpenAI/Anthropic et al. (2024). "Group Relative Policy Optimization for Language Model Alignment"
    - [arXiv:2402.xxxxx](https://arxiv.org/abs/2402.xxxxx)
    - Latest GRPO methodology used in this work
 
-5. Ouyang, L., et al. (2022). "Training language models to follow instructions with human feedback"
+2. Ouyang, L., et al. (2022). "Training language models to follow instructions with human feedback"
    - [arXiv:2203.02155](https://arxiv.org/abs/2203.02155)
    - Foundation of RLHF approach
 
-**Transit & Operations Research:**
-
-6. Mirchandani, P., & Head, L. (2001). "A real-time traffic signal control system: architecture, algorithms, and analysis"
-   - [IEEE Transactions on ITS](https://ieeexplore.ieee.org/document/935210)
-   - Real-world traffic optimization baseline
-
-7. Vaze, V., et al. (2010). "Mumbai's Local Trains: Capacity, Congestion, and Solutions"
-   - [Transportation Research Record](https://doi.org/10.3141/2146-14)
-   - Domain-specific reference for Mumbai Local
-
-**Related OpenEnv Environments:**
-
-8. OpenEnv Consortium. "OpenEnv: A Framework for Standardizing RL Benchmarks"
-   - [Website](https://openenv.org)
-   - [GitHub](https://github.com/openenv/openenv)
-   - Initiative this project participates in
 
 ### 🔗 Useful Links
 
