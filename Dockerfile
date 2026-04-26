@@ -31,10 +31,11 @@ RUN pip install --no-cache-dir \
 # --------------------------------------------------------------------------- #
 # Application files                                                            #
 # --------------------------------------------------------------------------- #
-COPY app.py environment.py ./
+COPY app.py environment.py gtfs_loader.py inference.py train.py ./
 COPY templates/ templates/
 COPY static/ static/
-COPY training_results.png .
+COPY training_log.json openenv.yaml pyproject.toml ./
+
 
 # --------------------------------------------------------------------------- #
 # Hugging Face Spaces requires the app to listen on port 7860                 #

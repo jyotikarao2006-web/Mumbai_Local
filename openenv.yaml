@@ -8,8 +8,8 @@ app_port: 7860
 license: mit
 ---
 
-name: MumbaiLocalEnv-v4
-version: "4.0.0"
+name: MumbaiLocalEnv-v3
+version: "3.0.0"
 description: >
   A multi-agent reinforcement learning environment simulating Mumbai's local
   train network (Western, Central, Harbour). Agents (commuters) learn to route
