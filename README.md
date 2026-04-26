@@ -308,7 +308,7 @@ Decision Time per Step          2.1ms           3.2ms           4.1ms
 **Reward Distribution:**
 <img width="1184" height="582" alt="image" src="https://github.com/user-attachments/assets/5cd1917d-ad32-4c50-bc2a-22ab16578aca" />
 
-**Reward Distribution:**
+**Before and After cummulative rewards:**
 <img width="2084" height="1036" alt="image" src="https://github.com/user-attachments/assets/73c0a882-5d24-4c40-b616-dc8863003a23" />
 
 
