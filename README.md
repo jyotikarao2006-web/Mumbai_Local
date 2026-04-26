@@ -540,15 +540,6 @@ This project is licensed under the **MIT License**. See the LICENSE file for det
 
 ---
 
-## 📞 Support & Feedback
-
-- **Issues**: Open a GitHub issue for bugs or feature requests
-- **Discussions**: Use GitHub Discussions for Q&A
-- **Email**: contact@example.com
-- **Discord**: Join our community server
-
----
-
 ## 🗺️ Roadmap
 
 ### v3.1 (Q2 2026)
